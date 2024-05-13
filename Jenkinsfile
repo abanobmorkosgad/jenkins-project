@@ -2,43 +2,43 @@ def gv
 
 pipeline {
     agent any 
-    parameters{
-        choice(name: 'VERSION', choices: ['1.0.0','1.0.1','1.0.2'], description: '')
-        booleanParam(name: 'executetests', defaultValue: true, description: '')
-    }
     tools {
         maven 'maven'
     }
 
     stages {
 
-        stage("init") {
+        // stage("init") {
+
+        //     steps {
+        //         script {
+        //             gv = load "script.groovy"
+        //         }
+        //     }
+        // }
+
+        stage("build jar") {
 
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo "building the app ..."
+                    sh "mvn package"
                 }
             }
         }
 
-        stage("build") {
+        stage("build docker image") {
 
             steps {
                 script {
-                    gv.build()
-                }
-            }
-        }
-
-        stage("test") {
-            when{
-                expression{
-                    params.executetests == true
-                }
-            }
-            steps {
-                script {
-                    gv.test()
+                    echo "building docker image ..."
+                    withCredentials([
+                        usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
+                    ]){
+                        sh "docker build -t abanobmorkos10/java-maven:1.0.0 ."
+                        sh "echo ${PASS} | docker login -u ${USER} --password-stdin"
+                        sh "docker push abanobmorkos10/java-maven:1.0.0"
+                    }
                 }
             }
         }
