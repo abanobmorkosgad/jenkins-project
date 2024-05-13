@@ -1,5 +1,8 @@
 pipeline {
     agent any 
+    parameters{
+        choice(name: 'ENV', choices: ['dev','test','prod'], description: '')
+    }
     tools {
         maven 'maven'
     }
@@ -18,7 +21,11 @@ pipeline {
         }
 
         stage("test") {
-
+            when{
+                expression{
+                    params.ENV == "test"
+                }
+            }
             steps {
                 echo "testing the app versiobn ${VERSION}"
             }
