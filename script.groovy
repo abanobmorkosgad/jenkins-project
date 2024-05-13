@@ -4,7 +4,7 @@ def build() {
 
 
 def test() {
-    echo "testing the app version ${VERSION}"
+    echo "testing the app version ${params.VERSION}"
 }
 
 
