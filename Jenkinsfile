@@ -32,7 +32,7 @@ pipeline {
 
             steps {
                 script {
-                    buildImage()
+                    buildImage 'abanobmorkos10/java-maven:2.0.0'
                 }
             }
         }
