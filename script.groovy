@@ -9,7 +9,7 @@ def test() {
 
 
 def deploy() {
-    echo "deploying the app .."
+    echo "deploying the app to ${ENV} enviroment"
 }
 
 

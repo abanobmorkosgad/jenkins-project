@@ -3,14 +3,11 @@ def gv
 pipeline {
     agent any 
     parameters{
-        choice(name: 'ENV', choices: ['dev','test','prod'], description: '')
+        choice(name: 'VERSION', choices: ['1.0.0','1.0.1','1.0.2'], description: '')
         booleanParam(name: 'executetests', defaultValue: true, description: '')
     }
     tools {
         maven 'maven'
-    }
-    environment {
-        VERSION = '3.0.1'
     }
 
     stages {
@@ -36,7 +33,7 @@ pipeline {
         stage("test") {
             when{
                 expression{
-                    params.ENV == "test"
+                    params.executetests == true
                 }
             }
             steps {
@@ -47,6 +44,13 @@ pipeline {
         }
 
         stage("deploy") {
+            input{
+                messege "Select with environment to deploy"
+                ok "Done"
+                    parameters{
+                        choice(name: 'ENV', choices: ['dev','test','prod'], description: '')
+                    }
+            }
 
             steps {
                 script {
