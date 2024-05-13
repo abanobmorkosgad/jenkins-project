@@ -2,7 +2,7 @@ pipeline {
     agent any 
     parameters{
         choice(name: 'ENV', choices: ['dev','test','prod'], description: '')
-        boolean(name: 'executetests', defaultValue: true, description: '')
+        booleanParam(name: 'executetests', defaultValue: true, description: '')
     }
     tools {
         maven 'maven'
