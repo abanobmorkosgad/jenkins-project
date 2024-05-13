@@ -1,3 +1,5 @@
+dev gv
+
 pipeline {
     agent any 
     parameters{
@@ -13,11 +15,21 @@ pipeline {
 
     stages {
 
+        stage("init") {
+
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
+
         stage("build") {
 
             steps {
-                echo "bulding the app .."
-                sh "mvn package"
+                script {
+                    gv.build()
+                }
             }
         }
 
@@ -28,19 +40,18 @@ pipeline {
                 }
             }
             steps {
-                echo "testing the app versiobn ${VERSION}"
+                script {
+                    gv.test()
+                }
             }
         }
 
         stage("deploy") {
 
             steps {
-                echo "deploying the app .."
-                // withCredentials([
-                //     usernamePassword(credentials: 'github-credentials', usernameVariable: USER, passwordVariable: PASS)
-                // ]){
-                //     echo "${USER} ${PASS} "
-                // }
+                script {
+                    gv.deploy()
+                }
             }
         }
     }
