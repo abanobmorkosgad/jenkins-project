@@ -1,6 +1,10 @@
 pipeline {
     agent any 
 
+    environment {
+        VERSION = '3.0.1'
+    }
+
     stages {
 
         stage("build") {
@@ -11,13 +15,9 @@ pipeline {
         }
 
         stage("test") {
-            when {
-                expression {
-                    BRANCH_NAME == 'dev'
-                }
-            }
+
             steps {
-                echo "testing the app .."
+                echo "testing the app versiobn ${VERSION}"
             }
         }
 
