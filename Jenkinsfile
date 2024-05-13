@@ -23,7 +23,7 @@ pipeline {
 
             steps {
                 script {
-                    bulidJar()
+                    buildJar()
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
 
             steps {
                 script {
-                    bulidImage()
+                    buildImage()
                 }
             }
         }
