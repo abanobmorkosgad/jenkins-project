@@ -63,7 +63,7 @@ pipeline {
                         sshagent(['ec2-user']) {
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerInstall}"
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerStart}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerLogin}"
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 sudo docker login -u ${USER} -P ${PASS}"
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerCmd}"
                     }
                     }
