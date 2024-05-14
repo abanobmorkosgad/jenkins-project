@@ -55,7 +55,7 @@ pipeline {
                     echo "deploying .."
                     def dockerInstall = "sudo yum install -y docker"
                     def dockerStart = "sudo systemctl start docker"
-                    def dockerLogin = "sudo docker login -u ${USER} -P ${PASS}"
+                    // def dockerLogin = "sudo docker login -u ${USER} -P ${PASS}"
                     def dockerCmd = "sudo docker run -p 3080:3080 -d abanobmorkos10/java-maven:${IMAGE_VERSION}"
                     withCredentials([
                         usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
