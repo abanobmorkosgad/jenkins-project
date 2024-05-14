@@ -55,8 +55,7 @@ pipeline {
                     echo "deploying .."
                     def dockerInstall = "sudo yum install -y docker"
                     def dockerStart = "sudo systemctl start docker"
-                    // def dockerLogin = "sudo docker login -u ${USER} -P ${PASS}"
-                    def dockerCmd = "sudo docker run -p 3080:3080 -d abanobmorkos10/java-maven:${IMAGE_VERSION}"
+                    def dockerCmd = "sudo docker run -p 8080:8080 -d abanobmorkos10/java-maven:${IMAGE_VERSION}"
                     withCredentials([
                         usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
                     ]){
@@ -67,9 +66,6 @@ pipeline {
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerCmd}"
                     }
                     }
-                    // sshagent(['ec2-user']) {
-                    //     sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerCmd}"
-                    // }
                 }
             }
         }
