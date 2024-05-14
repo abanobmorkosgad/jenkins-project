@@ -12,7 +12,7 @@ pipeline {
 
             steps {
                 script {
-                    echo "increment the app version .."
+                    echo "increment the app version ..."
                     sh 'mvn build-helper:parse-version versions:set \
                         -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
                         versions:commit'
@@ -26,7 +26,7 @@ pipeline {
         stage("build app") {
             steps {
                 script {
-                    echo "building the app .."
+                    echo "building the app ..."
                     sh "mvn clean package"
                 }
             }
