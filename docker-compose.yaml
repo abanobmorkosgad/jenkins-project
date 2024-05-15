@@ -1,7 +1,7 @@
 version: '3'
 services:
   java-maven:
-    image: abanobmorkos10/java-maven:${IMAGE}
+    image: ${IMAGE}
     ports:
       - 8080:8080
   postgres:
