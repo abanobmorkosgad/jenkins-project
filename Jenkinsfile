@@ -53,21 +53,18 @@ pipeline {
             steps {
                 script {
                     echo "deploying .."
-                    def composeInstall = "sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose"
-                    def composeExec = "sudo chmod +x /usr/local/bin/docker-compose"
-                    def dockerComposeCmd = "sudo docker-compose -f docker-compose.yaml up --detach" 
-                    def shellCmd = "bash ./script.sh abanobmorkos10/java-maven:${IMAGE_VERSION}"
+                    def dockerCmd = "bash ./docker.sh"
+                    def dockerComposeCmd = "bash ./docker-compose.sh abanobmorkos10/java-maven:${IMAGE_VERSION}"
+                    def ec2="ec2-user@3.236.7.129"
                     withCredentials([
                         usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
                     ]){
                         sshagent(['ec2-user']) {
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeInstall}"
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeExec}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@3.236.7.129 sudo docker login -u ${USER} -p ${PASS}"
-                            sh "scp docker-compose.yaml ec2-user@3.236.7.129:/home/ec2-user"
-                            sh "scp script.sh ec2-user@3.236.7.129:/home/ec2-user"
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerComposeCmd}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@3.236.7.129 ${shellCmd}"
+                            sh "ssh -o StrictHostKeyChecking=no ${ec2} ${dockerCmd}"
+                            sh "ssh -o StrictHostKeyChecking=no ${ec2} sudo docker login -u ${USER} -p ${PASS}"
+                            sh "scp docker-compose.yaml ${ec2}:~"
+                            sh "scp script.sh ${ec2}:~"
+                            sh "ssh -o StrictHostKeyChecking=no ${ec2} ${dockerComposeCmd}"
 
                     }
                     }
