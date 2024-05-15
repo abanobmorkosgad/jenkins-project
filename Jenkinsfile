@@ -63,11 +63,11 @@ pipeline {
                         sshagent(['ec2-user']) {
                             // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeInstall}"
                             // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeExec}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 sudo docker login -u ${USER} -p ${PASS}"
-                            sh "scp docker-compose.yaml ec2-user@44.200.41.6:/home/ec2-user"
-                            sh "scp script.sh ec2-user@44.200.41.6:/home/ec2-user"
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@3.236.7.129 sudo docker login -u ${USER} -p ${PASS}"
+                            sh "scp docker-compose.yaml ec2-user@3.236.7.129:/home/ec2-user"
+                            sh "scp script.sh ec2-user@3.236.7.129:/home/ec2-user"
                             // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerComposeCmd}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${shellCmd}"
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@3.236.7.129 ${shellCmd}"
 
                     }
                     }
