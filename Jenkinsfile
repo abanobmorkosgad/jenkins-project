@@ -52,7 +52,7 @@ pipeline {
 
             steps {
                 script {
-                    echo "deploying .."
+                    echo "deploying compose to ec2 .."
                     def dockerCmd = "bash ./docker.sh"
                     def dockerComposeCmd = "bash ./docker-compose.sh abanobmorkos10/java-maven:${IMAGE_VERSION}"
                     def ec2="ec2-user@3.236.7.129"
