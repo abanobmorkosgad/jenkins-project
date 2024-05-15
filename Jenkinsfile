@@ -60,12 +60,12 @@ pipeline {
                         usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
                     ]){
                         sshagent(['ec2-user']) {
+                            sh "scp docker.sh ${ec2}:~"
                             sh "ssh -o StrictHostKeyChecking=no ${ec2} ${dockerCmd}"
                             sh "ssh -o StrictHostKeyChecking=no ${ec2} sudo docker login -u ${USER} -p ${PASS}"
                             sh "scp docker-compose.yaml ${ec2}:~"
-                            sh "scp script.sh ${ec2}:~"
+                            sh "scp docker-compose.sh ${ec2}:~"
                             sh "ssh -o StrictHostKeyChecking=no ${ec2} ${dockerComposeCmd}"
-
                     }
                     }
                 }
