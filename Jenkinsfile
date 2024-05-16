@@ -49,6 +49,11 @@ pipeline {
         }
 
         stage("deploy") {
+            when{
+                expression {
+                    BUILD_NUMBER == 1
+                }
+            }
             environment {
                 AWS_ACCESS_KEY_ID = credentials("aws_access_key_id")
                 AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key")
@@ -57,9 +62,8 @@ pipeline {
                 script {
                     def clsuter_name = "my-app-cluster"
                     def cluster_region = "us-east-1"
-                    echo "deploying to eks cluster .."
+                    echo "add kubeconfig .."
                     sh "aws eks update-kubeconfig --region ${cluster_region} --name ${clsuter_name}"
-                    sh "kubectl get nodes"
                 }
             }
         }
