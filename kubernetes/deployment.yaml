@@ -15,7 +15,7 @@ spec:
         app: java-maven
     spec:
       imagePullSecrets:
-        name: my-docker-registry
+      - name: my-docker-registry
       containers:
       - name: java-maven
         image: abanobmorkos10/java-maven:${IMAGE_VERSION} 
