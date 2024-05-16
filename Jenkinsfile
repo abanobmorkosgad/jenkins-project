@@ -58,7 +58,7 @@ pipeline {
                     def clsuter_name = "my-app-cluster"
                     def cluster_region = "us-east-1"
                     echo "deploying to eks cluster .."
-                    sh "aws eks update-kubeconfig --region {cluster_region} --name {clsuter_name}"
+                    sh "aws eks update-kubeconfig --region ${cluster_region} --name ${clsuter_name}"
                     sh "kubectl get nodes"
                 }
             }
