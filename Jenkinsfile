@@ -1,5 +1,3 @@
-def gv
-
 pipeline {
     agent any 
     tools {
@@ -55,7 +53,7 @@ pipeline {
         stage("add kubeconfig") {
             when{
                 expression {
-                    BUILD_NUMBER == 1
+                    BUILD_NUMBER == "1"
                 }
             }
             environment {
