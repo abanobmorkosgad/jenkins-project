@@ -49,28 +49,17 @@ pipeline {
         }
 
         stage("deploy") {
-
+            environment {
+                AWS_ACCESS_KEY_ID = credentials("aws_access_key_id")
+                AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key")
+            }
             steps {
                 script {
-                    echo "deploying .."
-                    def composeInstall = "sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose"
-                    def composeExec = "sudo chmod +x /usr/local/bin/docker-compose"
-                    def dockerComposeCmd = "sudo docker-compose -f docker-compose.yaml up --detach" 
-                    def shellCmd = "bash ./script.sh ${IMAGE_VERSION}"
-                    withCredentials([
-                        usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
-                    ]){
-                        sshagent(['ec2-user']) {
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeInstall}"
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${composeExec}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 sudo docker login -u ${USER} -p ${PASS}"
-                            sh "scp docker-compose.yaml ec2-user@44.200.41.6:/home/ec2-user"
-                            sh "scp script.sh ec2-user@44.200.41.6:/home/ec2-user"
-                            // sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${dockerComposeCmd}"
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@44.200.41.6 ${shellCmd}"
-
-                    }
-                    }
+                    def clsuter_name = "my-app-cluster"
+                    def cluster_region = "us-east-1"
+                    echo "deploying to eks cluster .."
+                    sh "aws eks update-kubeconfig --region {cluster_region} --name {clsuter_name}"
+                    sh "kubectl get nodes"
                 }
             }
         }
@@ -86,8 +75,8 @@ pipeline {
                         
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/abanobmorkosgad/jenkins-project.git "
                         sh "git add ."
-                        sh "git commit -m 'ci: deploy_compose'"
-                        sh "git push origin HEAD:deploy_compose"
+                        sh "git commit -m 'ci: kubernetes'"
+                        sh "git push origin HEAD:kubernetes"
                     }
                 }
             }
