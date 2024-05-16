@@ -49,7 +49,7 @@ pipeline {
                         usernamePassword(credentialsId: 'ecr-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
                     ]){
                         sh "docker build -t ${REPO_NAME}:${IMAGE_VERSION} ."
-                        sh "echo ${PASS} | docker login -u ${USER} --password-stdin ${REPO_SERVER}"
+                        sh "docker login -u ${USER} -p ${PASS} ${REPO_SERVER}"
                         sh "docker push ${REPO_NAME}:${IMAGE_VERSION}"
                     }
                 }
