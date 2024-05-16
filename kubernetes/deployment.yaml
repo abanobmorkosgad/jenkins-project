@@ -19,6 +19,6 @@ spec:
       containers:
       - name: java-maven
         image: abanobmorkos10/java-maven:${IMAGE_VERSION} 
-        imagePullPolicy: always  
+        imagePullPolicy: Always  
         ports:
         - containerPort: 8080
