@@ -1,1 +1,5 @@
-target/java*.jar
+target/java-maven-app-1.1.11.jar
+target/java-maven-app-1.1.11.jar.original
+target/maven-status/*
+target/classes/*
+target/test-classes/*
