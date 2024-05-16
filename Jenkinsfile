@@ -6,6 +6,11 @@ pipeline {
         maven 'maven'
     }
 
+    environment {
+        REPO_SERVER = "339712792713.dkr.ecr.us-east-1.amazonaws.com"
+        REPO_NAME = "${REPO_SERVER}/java-maven"
+    }
+
     stages {
 
         stage("increment version") {
@@ -38,11 +43,11 @@ pipeline {
                 script {
                     echo "building docker image ..."
                     withCredentials([
-                        usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
+                        usernamePassword(credentialsId: 'ecr-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')
                     ]){
-                        sh "docker build -t abanobmorkos10/java-maven:${IMAGE_VERSION} ."
-                        sh "echo ${PASS} | docker login -u ${USER} --password-stdin"
-                        sh "docker push abanobmorkos10/java-maven:${IMAGE_VERSION}"
+                        sh "docker build -t ${REPO_NAME}:${IMAGE_VERSION} ."
+                        sh "echo ${PASS} | docker login -u ${USER} --password-stdin ${REPO_SERVER}"
+                        sh "docker push ${REPO_NAME}:${IMAGE_VERSION}"
                     }
                 }
             }
